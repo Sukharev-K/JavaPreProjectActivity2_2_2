@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import web.model.Car;
+import web.service.CarService;
 import web.service.CarServiceImpl;
 
 import java.util.List;
@@ -16,14 +17,14 @@ public class CarController {
     private final CarServiceImpl carService;
 
     @Autowired
-    public CarController(CarServiceImpl carService){
-        this.carService = carService;
+    public CarController(CarService carService){
+        this.carService = (CarServiceImpl) carService;
     }
 
     @GetMapping(value = "/cars")
     public String printCar(@RequestParam(name = "count", required = false, defaultValue = "5") int count, ModelMap model) {
-        List<Car> cars = carService.getCars(count);
-        model.addAttribute("cars", cars);
+        //List<Car> cars = carService.getCars(count);
+        model.addAttribute("cars", carService.getCars(count));
         return "cars";
     }
 }
